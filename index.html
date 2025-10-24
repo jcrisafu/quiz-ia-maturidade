@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz: Sua empresa está pronta para IA?</title>
+    <style>
+        :root {
+            --color-primary: #21808d;
+            --color-primary-hover: #1d7480;
+            --color-background: #fcfcf9;
+            --color-surface: #fffffe;
+            --color-text: #13343b;
+            --color-text-secondary: #626c71;
+            --color-border: rgba(94, 82, 64, 0.2);
+            --color-success: #21808d;
+            --color-warning: #a84b2f;
+            --color-error: #c0152f;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: var(--color-text);
+            line-height: 1.6;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--color-surface);
+            border-radius: 16px;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .header {
+            background: var(--color-primary);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 40px 30px;
+        }
+
+        .intro {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .intro h2 {
+            font-size: 20px;
+            color: var(--color-text);
+            margin-bottom: 15px;
+        }
+
+        .intro p {
+            color: var(--color-text-secondary);
+            font-size: 15px;
+        }
+
+        .question-card {
+            background: var(--color-background);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .question-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .question-number {
+            display: inline-block;
+            background: var(--color-primary);
+            color: white;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 12px;
+            border-radius: 20px;
+            margin-bottom: 12px;
+        }
+
+        .question-text {
+            font-size: 16px;
+            font-weight: 500;
+            color: var(--color-text);
+            margin-bottom: 15px;
+        }
+
+        .options {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .option {
+            flex: 1;
+            min-width: 120px;
+            padding: 12px 20px;
+            border: 2px solid var(--color-border);
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .option:hover {
+            border-color: var(--color-primary);
+            background: rgba(33, 128, 141, 0.05);
+        }
+
+        .option.selected {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .btn-submit {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background 0.3s ease;
+        }
+
+        .btn-submit:hover {
+            background: var(--color-primary-hover);
+        }
+
+        .btn-submit:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+
+        .result {
+            display: none;
+            text-align: center;
+            padding: 30px;
+        }
+
+        .result.show {
+            display: block;
+        }
+
+        .result-score {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+        }
+
+        .result-level {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .result-description {
+            font-size: 16px;
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .badge-inicial {
+            background: rgba(192, 21, 47, 0.1);
+            color: var(--color-error);
+        }
+
+        .badge-transicao {
+            background: rgba(168, 75, 47, 0.1);
+            color: var(--color-warning);
+        }
+
+        .badge-madura {
+            background: rgba(33, 128, 141, 0.1);
+            color: var(--color-success);
+        }
+
+        .badge-transformacional {
+            background: rgba(33, 128, 141, 0.2);
+            color: var(--color-success);
+        }
+
+        .btn-restart {
+            padding: 12px 30px;
+            background: white;
+            color: var(--color-primary);
+            border: 2px solid var(--color-primary);
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-restart:hover {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 22px;
+            }
+
+            .content {
+                padding: 30px 20px;
+            }
+
+            .options {
+                flex-direction: column;
+            }
+
+            .option {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Diagnóstico de Maturidade Cultural para IA</h1>
+            <p>Avalie se sua empresa está pronta para incorporar Inteligência Artificial</p>
+        </div>
+
+        <div class="content">
+            <div class="intro">
+                <h2>Como funciona?</h2>
+                <p>Responda as 10 perguntas abaixo e descubra o nível de maturidade cultural da sua organização para adotar IA de forma estratégica e sustentável.</p>
+            </div>
+
+            <div id="quiz-container"></div>
+
+            <button class="btn-submit" id="btn-submit" onclick="calculateResult()">Ver Resultado</button>
+
+            <div class="result" id="result">
+                <div class="result-score" id="result-score"></div>
+                <div class="badge" id="result-badge"></div>
+                <div class="result-level" id="result-level"></div>
+                <div class="result-description" id="result-description"></div>
+                <button class="btn-restart" onclick="restartQuiz()">Refazer Quiz</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const questions = [
+            "A liderança comunica propósito e direção clara na adoção de IA?",
+            "A inovação é vista como prática contínua, não como projeto isolado?",
+            "As decisões estratégicas são apoiadas por dados e aprendizado coletivo?",
+            "Os colaboradores têm clareza sobre o impacto da IA no seu trabalho?",
+            "Existe espaço para errar, aprender e ajustar rapidamente processos?",
+            "Há investimento em alfabetização digital e preparo emocional sobre IA?",
+            "A empresa equilibra empatia, tecnologia e foco em pessoas?",
+            "Projetos piloto de IA geram aprendizado compartilhado entre áreas?",
+            "A comunicação sobre IA é transparente e inspiradora?",
+            "A organização adapta modelos e processos conforme aprende?"
+        ];
+
+        const answers = {};
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            questions.forEach((question, index) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.innerHTML = `
+                    <span class="question-number">Pergunta ${index + 1}</span>
+                    <div class="question-text">${question}</div>
+                    <div class="options">
+                        <div class="option" onclick="selectOption(${index}, 2, this)">Sim</div>
+                        <div class="option" onclick="selectOption(${index}, 1, this)">Parcialmente</div>
+                        <div class="option" onclick="selectOption(${index}, 0, this)">Não</div>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function selectOption(questionIndex, value, element) {
+            const options = element.parentElement.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+            answers[questionIndex] = value;
+            
+            if (Object.keys(answers).length === questions.length) {
+                document.getElementById('btn-submit').disabled = false;
+            }
+        }
+
+        function calculateResult() {
+            const total = Object.values(answers).reduce((sum, val) => sum + val, 0);
+            const maxScore = questions.length * 2;
+            
+            let level, badge, description, badgeClass;
+            
+            if (total <= 10) {
+                level = "Nível Inicial";
+                badge = "Cultura Resistente";
+                badgeClass = "badge-inicial";
+                description = "Sua empresa ainda está nos primeiros passos da jornada de IA. A cultura apresenta resistências significativas. O foco deve estar em educação digital, comunicação clara e construção de propósito compartilhado sobre o papel da IA.";
+            } else if (total <= 17) {
+                level = "Em Transição";
+                badge = "Cultura em Desenvolvimento";
+                badgeClass = "badge-transicao";
+                description = "Existe abertura para a IA, mas ainda há bloqueios culturais e falta de clareza estratégica. É o momento de intensificar capacitações, fortalecer a comunicação e criar cases de sucesso internos que inspirem confiança.";
+            } else if (total <= 23) {
+                level = "Cultura Madura";
+                badge = "Pronta para Escalar";
+                badgeClass = "badge-madura";
+                description = "Sua empresa promove integração saudável entre pessoas e tecnologia. A liderança está engajada e a cultura é colaborativa. O próximo passo é expandir iniciativas de IA com foco em resultados mensuráveis e inovação contínua.";
+            } else {
+                level = "Cultura Transformacional";
+                badge = "Liderança em IA";
+                badgeClass = "badge-transformacional";
+                description = "A IA já faz parte da identidade organizacional. Sua empresa opera com empatia, dados e inovação contínua guiando decisões estratégicas. Continue investindo em pessoas, ética e cases que inspirem o mercado.";
+            }
+            
+            document.getElementById('result-score').textContent = `${total} / ${maxScore}`;
+            document.getElementById('result-level').textContent = level;
+            document.getElementById('result-badge').textContent = badge;
+            document.getElementById('result-badge').className = `badge ${badgeClass}`;
+            document.getElementById('result-description').textContent = description;
+            
+            document.getElementById('quiz-container').style.display = 'none';
+            document.getElementById('btn-submit').style.display = 'none';
+            document.querySelector('.intro').style.display = 'none';
+            document.getElementById('result').classList.add('show');
+        }
+
+        function restartQuiz() {
+            Object.keys(answers).forEach(key => delete answers[key]);
+            document.getElementById('quiz-container').style.display = 'block';
+            document.getElementById('btn-submit').style.display = 'block';
+            document.getElementById('btn-submit').disabled = true;
+            document.querySelector('.intro').style.display = 'block';
+            document.getElementById('result').classList.remove('show');
+            
+            const options = document.querySelectorAll('.option');
+            options.forEach(opt => opt.classList.remove('selected'));
+        }
+
+        document.getElementById('btn-submit').disabled = true;
+        renderQuiz();
+    </script>
+</body>
+</html>
