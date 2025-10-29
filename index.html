@@ -1,703 +1,407 @@
 <!DOCTYPE html>
-
 <html lang="pt-BR">
-
 <head>
-
-    <meta charset="UTF-8">
-
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Diagnóstico de Maturidade Cultural para IA - Airan Jr. #PenseforadaMáquina</title>
-
+    <meta name="author" content="Airan Jr." />
+    <meta name="description" content="Quiz rápido baseado no MIT Sloan School of Management 2025 para avaliação de maturidade cultural em IA." />
+    <link rel="canonical" href="https://www.linkedin.com/in/airanjr/" />
     <style>
-
         :root {
-
-            --color-primary: #e87722; /* Laranja vivo */
-
+            --color-primary: #e87722;
             --color-primary-hover: #cc6f1d;
-
             --color-background: #fff8f0;
-
             --color-surface: #fffdf8;
-
             --color-text: #4a2700;
-
             --color-text-secondary: #7a4c00;
-
             --color-border: rgba(232, 119, 34, 0.3);
-
             --color-success: #c25a00;
-
             --color-warning: #d97806;
-
             --color-error: #9e3b00;
-
             --shadow-sm: 0 1px 3px rgba(233, 133, 31, 0.2);
-
             --shadow-md: 0 4px 6px -1px rgba(233, 133, 31, 0.3);
-
         }
-
-        * {
-
-            margin: 0;
-
-            padding: 0;
-
-            box-sizing: border-box;
-
-        }
-
+        *{margin:0; padding:0; box-sizing:border-box;}
         body {
-
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-
             background: var(--color-background);
-
             color: var(--color-text);
-
             line-height: 1.6;
-
             padding: 20px;
-
         }
-
         .container {
-
             max-width: 800px;
-
             margin: 0 auto;
-
             background: var(--color-surface);
-
             border-radius: 16px;
-
             box-shadow: var(--shadow-md);
-
             overflow: hidden;
-
         }
-
         .header {
-
             background: var(--color-primary);
-
             color: white;
-
             padding: 40px 30px;
-
             text-align: center;
-
         }
-
         .header h1 {
-
             font-size: 28px;
-
             font-weight: 600;
-
             margin-bottom: 10px;
-
         }
-
         .header p {
-
             font-size: 16px;
-
             font-weight: 500;
-
             opacity: 0.95;
-
         }
-
         .content {
-
             padding: 40px 30px;
-
         }
-
         .intro {
-
             text-align: center;
-
-            margin-bottom: 40px;
-
+            margin-bottom: 30px;
         }
-
         .intro h2 {
-
             font-size: 20px;
-
             color: var(--color-text);
-
-            margin-bottom: 15px;
-
+            margin-bottom: 10px;
         }
-
         .intro p {
-
             color: var(--color-text-secondary);
-
-            font-size: 15px;
-
+            font-size: 14px;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.4;
         }
-
         .question-card {
-
             background: var(--color-background);
-
             border: 1px solid var(--color-border);
-
             border-radius: 12px;
-
             padding: 25px;
-
             margin-bottom: 20px;
-
             transition: all 0.3s ease;
-
         }
-
         .question-card:hover {
-
             border-color: var(--color-primary);
-
             box-shadow: var(--shadow-sm);
-
         }
-
         .question-number {
-
             display: inline-block;
-
             background: var(--color-primary);
-
             color: white;
-
             font-size: 12px;
-
             font-weight: 600;
-
             padding: 4px 12px;
-
             border-radius: 20px;
-
             margin-bottom: 12px;
-
         }
-
         .question-text {
-
             font-size: 16px;
-
             font-weight: 500;
-
             color: var(--color-text);
-
             margin-bottom: 15px;
-
         }
-
         .options {
-
             display: flex;
-
             gap: 10px;
-
             flex-wrap: wrap;
-
         }
-
         .option {
-
             flex: 1;
-
             min-width: 120px;
-
             padding: 12px 20px;
-
             border: 2px solid var(--color-border);
-
             border-radius: 8px;
-
             background: white;
-
             cursor: pointer;
-
             text-align: center;
-
             font-size: 14px;
-
             font-weight: 500;
-
             transition: all 0.2s ease;
-
             color: var(--color-text);
-
             user-select: none;
-
         }
-
         .option:hover {
-
             border-color: var(--color-primary);
-
             background: rgba(232, 119, 34, 0.1);
-
         }
-
         .option.selected {
-
             background: var(--color-primary);
-
             color: white;
-
             border-color: var(--color-primary);
-
         }
-
         .btn-submit {
-
             display: block;
-
             width: 100%;
-
             padding: 16px;
-
             background: var(--color-primary);
-
             color: white;
-
             border: none;
-
             border-radius: 8px;
-
             font-size: 16px;
-
             font-weight: 600;
-
             cursor: pointer;
-
             margin-top: 30px;
-
             transition: background 0.3s ease;
-
         }
-
         .btn-submit:hover {
-
             background: var(--color-primary-hover);
-
         }
-
         .btn-submit:disabled {
-
             background: #f3a852;
-
             cursor: not-allowed;
-
         }
-
         .result {
-
             display: none;
-
             text-align: center;
-
             padding: 30px;
-
         }
-
         .result.show {
-
             display: block;
-
         }
-
         .result-score {
-
             font-size: 48px;
-
             font-weight: 700;
-
             color: var(--color-primary);
-
             margin-bottom: 15px;
-
         }
-
         .result-level {
-
             font-size: 24px;
-
             font-weight: 600;
-
             margin-bottom: 20px;
-
             color: var(--color-primary);
-
         }
-
         .result-description {
-
             font-size: 16px;
-
             color: var(--color-text-secondary);
-
             line-height: 1.8;
-
-            max-width: 600px;
-
+            max-width: 700px;
             margin: 0 auto 30px;
-
+            text-align: left;
         }
-
         .badge {
-
             display: inline-block;
-
             padding: 8px 20px;
-
             border-radius: 20px;
-
             font-size: 14px;
-
             font-weight: 600;
-
             margin-bottom: 20px;
-
         }
-
         .badge-inicial {
-
             background: rgba(233, 133, 31, 0.1);
-
             color: var(--color-error);
-
         }
-
         .badge-transicao {
-
             background: rgba(233, 133, 31, 0.2);
-
             color: var(--color-warning);
-
         }
-
         .badge-madura {
-
             background: rgba(220, 122, 0, 0.1);
-
             color: var(--color-success);
-
         }
-
         .badge-transformacional {
-
             background: rgba(232, 119, 34, 0.3);
-
             color: var(--color-success);
-
         }
-
         .btn-restart {
-
             padding: 12px 30px;
-
             background: white;
-
             color: var(--color-primary);
-
             border: 2px solid var(--color-primary);
-
             border-radius: 8px;
-
             font-size: 14px;
-
             font-weight: 600;
-
             cursor: pointer;
-
             transition: all 0.3s ease;
-
         }
-
         .btn-restart:hover {
-
             background: var(--color-primary);
-
             color: white;
-
         }
-
         @media (max-width: 600px) {
-
             .header h1 {
-
                 font-size: 22px;
-
             }
-
             .content {
-
                 padding: 30px 20px;
-
             }
-
             .options {
-
                 flex-direction: column;
-
             }
-
             .option {
-
                 min-width: 100%;
-
             }
-
+            .result-description {
+                max-width: 100%;
+                text-align: left;
+            }
         }
-
     </style>
-
 </head>
-
 <body>
-
-    <div class="container">
-
+    <div class="container">        
         <div class="header">
-
             <h1>Diagnóstico de Maturidade Cultural para IA - Airan Jr. <span style="font-weight:normal;">#PenseforadaMáquina</span></h1>
-
             <p>Avalie se sua empresa está pronta para incorporar Inteligência Artificial</p>
-
         </div>
-
         <div class="content">
-
             <div class="intro">
-
-                <h2>Como funciona?</h2>
-
+                <h2>Sobre este quiz rápido</h2>
                 <p>
-
-                    Responda as 10 perguntas abaixo e descubra o nível de maturidade cultural da sua organização
-
-                    para adotar IA de forma estratégica e sustentável.
-
+                    Este instrumento foi criado com base em conhecimento de mercado e artigos publicados pelo 
+                    <a href="https://mitsloan.mit.edu/" target="_blank" style="color: var(--color-primary);">MIT Sloan School of Management (2025)</a>, 
+                    especificamente no Modelo de Maturidade em IA do <em>MIT Center for Information Systems Research (CISR)</em>. 
+                    Serve para uma autoavaliação rápida da maturidade cultural para adoção de IA em sua organização.
                 </p>
-
             </div>
-
             <div id="quiz-container"></div>
-
             <button class="btn-submit" id="btn-submit" onclick="calculateResult()" disabled>Ver Resultado</button>
-
             <div class="result" id="result">
-
                 <div class="result-score" id="result-score"></div>
-
                 <div class="badge" id="result-badge"></div>
-
                 <div class="result-level" id="result-level"></div>
-
                 <div class="result-description" id="result-description"></div>
-
                 <button class="btn-restart" onclick="restartQuiz()">Refazer Quiz</button>
-
             </div>
-
         </div>
-
     </div>
-
     <script>
-
         const questions = [
-
             "A liderança comunica propósito e direção clara na adoção de IA?",
-
             "A inovação é vista como prática contínua, não como projeto isolado?",
-
             "As decisões estratégicas são apoiadas por dados e aprendizado coletivo?",
-
             "Os colaboradores têm clareza sobre o impacto da IA no seu trabalho?",
-
             "Existe espaço para errar, aprender e ajustar rapidamente processos?",
-
             "Há investimento em alfabetização digital e preparo emocional sobre IA?",
-
             "A empresa equilibra empatia, tecnologia e foco em pessoas?",
-
             "Projetos piloto de IA geram aprendizado compartilhado entre áreas?",
-
             "A comunicação sobre IA é transparente e inspiradora?",
-
             "A organização adapta modelos e processos conforme aprende?"
-
         ];
 
         const answers = {};
 
         function renderQuiz() {
-
             const container = document.getElementById("quiz-container");
-
             questions.forEach((question, index) => {
-
                 const card = document.createElement("div");
-
                 card.className = "question-card";
-
                 card.innerHTML = `
-
                     <span class="question-number">Pergunta ${index + 1}</span>
-
                     <div class="question-text">${question}</div>
-
                     <div class="options">
-
                         <div class="option" onclick="selectOption(${index}, 2, this)">Sim</div>
-
                         <div class="option" onclick="selectOption(${index}, 1, this)">Parcialmente</div>
-
                         <div class="option" onclick="selectOption(${index}, 0, this)">Não</div>
-
                     </div>
-
                 `;
-
                 container.appendChild(card);
-
             });
-
         }
 
         function selectOption(questionIndex, value, element) {
-
             const options = element.parentElement.querySelectorAll(".option");
-
             options.forEach((opt) => opt.classList.remove("selected"));
-
             element.classList.add("selected");
-
             answers[questionIndex] = value;
-
             if (Object.keys(answers).length === questions.length) {
-
                 document.getElementById("btn-submit").disabled = false;
-
             }
-
         }
 
         function calculateResult() {
-
             const total = Object.values(answers).reduce((sum, val) => sum + val, 0);
-
             const maxScore = questions.length * 2;
 
             let level, badge, description, badgeClass;
 
             if (total <= 11) {
-
-                level = "Estágio 1 – Preparação e Experimentação";
-
+                level = "Estágio 1 – Experimentação e Preparação (28% das empresas)";
                 badge = "Início da Jornada";
-
                 badgeClass = "badge-inicial";
-
-                description =
-
-                    "Foco em capacitação, exploração e primeiras diretrizes. A IA ainda é um tema emergente e isolado em áreas específicas. O objetivo é criar conforto com o uso da IA e formar a base educacional e cultural.";
-
+                description = `
+<strong>Foco em:</strong> Alfabetização em IA para conselhos e lideranças; formulação de políticas iniciais; discussão sobre ética e decisões automatizadas.
+<br /><br />
+<strong>Objetivo:</strong> Criar conforto com o uso de IA e formar base educacional e cultural.
+<br /><br />
+<strong>Recomendações:</strong>
+<ul>
+  <li>Intensifique capacitação e treinamentos básicos sobre IA;</li>
+  <li>Inicie diálogos claros sobre ética e governança;</li>
+  <li>Promova o engajamento das lideranças para criar ambiente receptivo.</li>
+</ul>`;
             } else if (total <= 17) {
-
-                level = "Estágio 2 – Pilotos e Capacitação";
-
+                level = "Estágio 2 – Pilotos e Capacitação (34% das empresas)";
                 badge = "Construindo Musculatura";
-
                 badgeClass = "badge-transicao";
-
-                description =
-
-                    "Projetos de IA começam a surgir em áreas específicas. A empresa desenvolve capacidades em dados, tecnologia e pessoas, evoluindo da cultura comando e controle para coaching e autonomia. Definição inicial de políticas e métricas.";
-
+                description = `
+<strong>Ações principais:</strong> Execução de pilotos de IA com valor tangível; definição de métricas e capacidades; consolidação de silos e segurança.
+<br /><br />
+<strong>Desafio:</strong> Migrar da cultura comando e controle para coaching e autonomia.
+<br /><br />
+<strong>Recomendações:</strong>
+<ul>
+  <li>Fomente projetos piloto com indicadores claros;</li>
+  <li>Estabeleça métricas de impacto e processo;</li>
+  <li>Promova mudança cultural focada em autonomia e coaching.</li>
+</ul>`;
             } else if (total <= 23) {
-
-                level = "Estágio 3 – Industrialização da IA";
-
+                level = "Estágio 3 – Industrialização da IA (31% das empresas)";
                 badge = "Pronta para Escalar";
-
                 badgeClass = "badge-madura";
-
-                description =
-
-                    "A IA passa a ser adotada como parte dos processos-chave, gerando impacto financeiro e diferencial competitivo. A cultura de testar e aprender em larga escala é consolidada, com transparência e automação ampliada.";
-
+                description = `
+<strong>Características:</strong> Arquitetura escalável, cultura “testar e aprender”, transparência e automação expandida.
+<br /><br />
+<strong>Tecnologias:</strong> Modelos fundacionais aplicados a dados próprios; ênfase em reuso e agentes inteligentes.
+<br /><br />
+<strong>Recomendações:</strong>
+<ul>
+  <li>Invista em infraestrutura robusta e escalável;</li>
+  <li>Incentive experimentação em larga escala;</li>
+  <li>Utilize dashboards para transparência e melhorias contínuas.</li>
+</ul>`;
             } else {
-
-                level = "Estágio 4 – Empresa Pronta para o Futuro com IA";
-
+                level = "Estágio 4 – Empresa Pronta para o Futuro com IA (7% das empresas)";
                 badge = "Liderança em IA";
-
                 badgeClass = "badge-transformacional";
-
-                description =
-
-                    "A IA está embutida em todas as decisões da organização, com capacidade contínua de inovar, capturar valor e se adaptar proativamente. A empresa combina análise, IA generativa, agentes inteligentes e robótica, liderando o futuro da tecnologia.";
-
+                description = `
+<strong>Elementos-chave:</strong> IA embutida em todas decisões; IA proprietária; combinação de análise, IA generativa, agentes e robótica.
+<br /><br />
+<strong>Exigência:</strong> Definir onde humanos estão no loop decisório.
+<br /><br />
+<strong>Recomendações:</strong>
+<ul>
+  <li>Estimule inovação contínua e captação de valor proprietária;</li>
+  <li>Implemente IA como serviço na organização;</li>
+  <li>Priorize governança avançada e ética.</li>
+</ul>`;
             }
 
             document.getElementById("result-score").textContent = `${total} / ${maxScore} pontos`;
-
             document.getElementById("result-level").textContent = level;
-
             document.getElementById("result-badge").textContent = badge;
-
             document.getElementById("result-badge").className = `badge ${badgeClass}`;
-
-            document.getElementById("result-description").textContent = description;
+            document.getElementById("result-description").innerHTML = description;
 
             document.getElementById("quiz-container").style.display = "none";
-
             document.getElementById("btn-submit").style.display = "none";
-
             document.querySelector(".intro").style.display = "none";
-
             document.getElementById("result").classList.add("show");
-
         }
 
         function restartQuiz() {
-
             Object.keys(answers).forEach((key) => delete answers[key]);
-
             document.getElementById("quiz-container").style.display = "block";
-
             document.getElementById("btn-submit").style.display = "block";
-
             document.getElementById("btn-submit").disabled = true;
-
             document.querySelector(".intro").style.display = "block";
-
             document.getElementById("result").classList.remove("show");
-
             const options = document.querySelectorAll(".option");
-
             options.forEach((opt) => opt.classList.remove("selected"));
-
         }
 
         document.getElementById("btn-submit").disabled = true;
-
         renderQuiz();
-
     </script>
-
 </body>
-
 </html>
